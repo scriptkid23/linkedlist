@@ -39,14 +39,12 @@ void enQueue(queue *obj,int data){
     obj->front = obj->rear = new_node;
     return;
   }
-
     node *temp ;
     obj->rear->next = new_node;
     temp = obj->rear;
     obj->rear = new_node;
     obj->rear->prev = temp;
     obj->rear->next = NULL;
-
 }
 void deQueue(queue *obj){
   if(obj->front == NULL) return;
@@ -56,6 +54,22 @@ void deQueue(queue *obj){
 //  printf("FRONT :%d",obj->front->data);
 free(temp);
 }
+void deleteOfData(queue *obj, int data){
+  node *temp = obj->rear;
+if(obj->front->data == data) {deQueue(obj); return;}
+if(temp->data == data){
+  printf("DELETE NOT SUCCESS\n");
+  return;
+}
+while (obj->front != NULL && temp->data != data) {
+  /* code */
+  temp = temp->prev;
+}
+temp->next->prev = temp->prev;
+temp->prev->next = temp->next;
+free(temp);
+}
+
 void showQueue(queue *obj){
    node *temp = obj->rear;
    printf("rear----->");
@@ -73,14 +87,12 @@ int main(int argc, char const *argv[]) {
   enQueue(queueRoot,16);
   enQueue(queueRoot,18);
   enQueue(queueRoot,17);
-  deQueue(queueRoot);
-  deQueue(queueRoot);
-  deQueue(queueRoot);
+  deleteOfData(queueRoot,17);
 
 //printf("%d",queueRoot->rear->prev->prev->prev->next->data);
 
 //printf("%d",queueRoot->front->data);
-  showQueue(queueRoot);
-  printf("LENGTH OF QUEUE: %d\n",lengthQueue(queueRoot));
+ showQueue(queueRoot);
+  //printf("LENGTH OF QUEUE: %d\n",lengthQueue(queueRoot));
   return 0;
 }
